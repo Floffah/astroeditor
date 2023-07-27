@@ -2,7 +2,7 @@
 
 import { createContext, PropsWithChildren, useContext, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Editor, loadFile } from '@astroeditor/astroeditor'
+import { Editor } from '@astroeditor/astroeditor'
 
 interface EditorContextValue {
 	importFile: (file: File) => Promise<void>
