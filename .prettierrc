@@ -1,0 +1,8 @@
+{
+  "semi": false,
+  "trailingComma": "all",
+  "singleQuote": true,
+  "useTabs": true,
+  "endOfLine": "lf",
+  "tailwindConfig": "apps/web/tailwind.config.js"
+}
