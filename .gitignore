@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/yarn,node,react,nextjs
-# Edit at https://www.toptal.com/developers/gitignore?templates=yarn,node,react,nextjs
+# Created by https://www.toptal.com/developers/gitignore/api/node,yarn,react,nextjs,turbo
+# Edit at https://www.toptal.com/developers/gitignore?templates=node,yarn,react,nextjs,turbo
 
 ### Jetbrains ###
 .idea
@@ -187,6 +187,11 @@ node_modules
 psd
 thumb
 sketch
+
+
+### Turbo ###
+# Turborepo task cache
+.turbo
 
 ### yarn ###
 # https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEditor } from '@/providers/EditorProvidor'
+import { useEditor } from '@/providers/EditorProvider'
 
 export function FileUploadForm() {
 	const editor = useEditor()
