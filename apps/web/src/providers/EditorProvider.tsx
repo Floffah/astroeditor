@@ -22,6 +22,10 @@ export function EditorProvider({ children }: PropsWithChildren<any>) {
 		editorRef.current = new Editor(buffer)
 
 		console.log(editorRef.current)
+
+		if (window.location.hostname !== 'localhost') {
+			alert('Editor page is unfinished. See console for save data.')
+		}
 	}
 
 	return (

@@ -5,6 +5,10 @@
     "apps/*",
     "packages/*"
   ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build"
+  },
   "devDependencies": {
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
