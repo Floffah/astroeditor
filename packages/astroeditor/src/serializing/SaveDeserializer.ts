@@ -1,15 +1,18 @@
-import { AstroneerSave } from '@/serializing/AstroneerSave'
+import { AstroSave } from '@/serializing/AstroSave'
 import ByteBuffer from 'bytebuffer'
 import { readUTF8String } from '@/util/protocolFormats'
 
+/**
+ * see https://github.com/ricky-davis/astro_save_parser/blob/main/src/save.rs for reference
+ */
 export class SaveDeserializer {
-	public static parseSave(buf: ByteBuffer): AstroneerSave {
+	public static parseSave(buf: ByteBuffer): AstroSave {
 		return {
 			header: this.parseHeader(buf),
 		}
 	}
 
-	private static parseHeader(buf: ByteBuffer): AstroneerSave['header'] {
+	private static parseHeader(buf: ByteBuffer): AstroSave['header'] {
 		return {
 			formatType: buf.readUint32(),
 			saveVersion: buf.readInt32(),
@@ -24,7 +27,7 @@ export class SaveDeserializer {
 
 	private static parseEngineVersion(
 		buf: ByteBuffer,
-	): AstroneerSave['header']['engineVersion'] {
+	): AstroSave['header']['engineVersion'] {
 		return {
 			major: buf.readUint16(),
 			minor: buf.readUint16(),
@@ -36,7 +39,7 @@ export class SaveDeserializer {
 
 	private static parseFormatData(
 		buf: ByteBuffer,
-	): AstroneerSave['header']['formatData'] {
+	): AstroSave['header']['formatData'] {
 		const version = buf.readInt32()
 		const count = buf.readUint32()
 

@@ -12,11 +12,13 @@
     "@types/bytebuffer": "^5.0.44",
     "@types/node": "^20.4.5",
     "@types/pako": "^2.0.0",
+    "@types/uuid": "^9.0.2",
     "tsup": "^7.1.0",
     "typescript": "^5.1.6"
   },
   "dependencies": {
     "bytebuffer": "^5.0.1",
-    "pako": "^2.1.0"
+    "pako": "^2.1.0",
+    "uuid": "^9.0.0"
   }
 }

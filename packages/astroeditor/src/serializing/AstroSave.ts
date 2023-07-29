@@ -1,4 +1,4 @@
-export interface AstroneerSave {
+export interface AstroSave {
 	header: {
 		formatType: number // saved just so we have it. This is actually the string "GVAS" as the decompressed version of .savefile is of the type GVAS
 		saveVersion: number
@@ -15,7 +15,7 @@ export interface AstroneerSave {
 			count: number
 			entries: Record<string, number>
 		}
-		saveClass: string
+		saveClass: string // almost always "AstroSave"
 		headerSuffixMessage: string
 		headerSuffixInt: number
 	}
