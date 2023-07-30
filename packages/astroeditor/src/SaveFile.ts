@@ -1,7 +1,7 @@
 import { Editor } from '@/Editor'
 import ByteBuffer from 'bytebuffer'
 import { Inflate } from 'pako'
-import { AstroSave } from '@/serializing/AstroSave'
+import { SaveFile as AstroSaveFile } from '@/serializing/AstroSave'
 import { SaveDeserializer } from '@/serializing/SaveDeserializer'
 
 const fixedHeaderHex = 'BE 40 37 4A EE 0B 74 A3 01 00 00 00'
@@ -13,7 +13,7 @@ export class SaveFile {
 	editor: Editor
 	buf: ByteBuffer
 
-	saveData: AstroSave
+	saveData: AstroSaveFile
 
 	constructor(editor: Editor, buf: Buffer | ArrayBuffer) {
 		this.editor = editor
