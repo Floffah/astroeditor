@@ -1,9 +1,10 @@
 'use client'
 
 import { useEditor } from '@/providers/EditorProvider'
+import { Icon } from '@iconify/react'
 
 export function FileUploadForm() {
-	const editor = useEditor()
+	const { importFile, parsing } = useEditor()
 
 	return (
 		<div className="bg-white/10 rounded-lg p-8 space-y-5 max-w-lg">
@@ -12,16 +13,26 @@ export function FileUploadForm() {
 				<p>Upload a .savegame file to start</p>
 			</div>
 
-			<input
-				type="file"
-				accept=".savegame"
-				onChange={(e) => {
-					const file = e.target.files?.[0]
-					if (file) {
-						editor.importFile(file)
-					}
-				}}
-			/>
+			{parsing ? (
+				<p>
+					<Icon
+						icon="mdi:loading"
+						className="animate-spin inline-block text-white text-xl"
+					/>{' '}
+					Parsing save file. This may take a while.
+				</p>
+			) : (
+				<input
+					type="file"
+					accept=".savegame"
+					onChange={(e) => {
+						const file = e.target.files?.[0]
+						if (file) {
+							importFile(file)
+						}
+					}}
+				/>
+			)}
 
 			<div className="bg-white/20 w-full h-0.5" />
 

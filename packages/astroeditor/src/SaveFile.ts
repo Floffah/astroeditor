@@ -36,6 +36,6 @@ export class SaveFile {
 
 		this.buf = decompressedBuf
 
-		this.saveData = SaveDeserializer.parseSave(this.buf)
+		this.saveData = SaveDeserializer.parseSaveFile(this.buf)
 	}
 }

@@ -1,11 +1,21 @@
 'use client'
 
-import { createContext, PropsWithChildren, useContext, useRef } from 'react'
+import {
+	createContext,
+	MutableRefObject,
+	PropsWithChildren,
+	RefObject,
+	useContext,
+	useRef,
+	useState,
+} from 'react'
 import { useRouter } from 'next/navigation'
 import { Editor } from '@astroeditor/astroeditor'
 
 interface EditorContextValue {
 	importFile: (file: File) => Promise<void>
+	parsing: boolean
+	editorRef: MutableRefObject<Editor | undefined>
 }
 
 export const EditorContext = createContext<EditorContextValue>(null as any)
@@ -16,7 +26,11 @@ export function EditorProvider({ children }: PropsWithChildren<any>) {
 	const router = useRouter()
 	const editorRef = useRef<Editor>()
 
+	const [parsing, setParsing] = useState(false)
+
 	const importFile = async (file: File) => {
+		setParsing(true)
+
 		const buffer = await file.arrayBuffer()
 
 		editorRef.current = new Editor(buffer)
@@ -26,10 +40,11 @@ export function EditorProvider({ children }: PropsWithChildren<any>) {
 		if (window.location.hostname !== 'localhost') {
 			alert('Editor page is unfinished. See console for save data.')
 		}
+		setParsing(false)
 	}
 
 	return (
-		<EditorContext.Provider value={{ importFile }}>
+		<EditorContext.Provider value={{ importFile, parsing, editorRef }}>
 			{children}
 		</EditorContext.Provider>
 	)
