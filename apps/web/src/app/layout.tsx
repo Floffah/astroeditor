@@ -2,6 +2,7 @@ import { EditorProvider } from '@/providers/EditorProvider'
 import { populateMetadata } from '@/lib/populateMetadata'
 import DefaultLayout from '@/layouts/DefaultLayout'
 import { PropsWithChildren } from 'react'
+import { EditorTabsProvider } from '@/providers/EditorTabsProvider'
 
 export const metadata = populateMetadata({
 	title: 'Astroneer Save Editor',

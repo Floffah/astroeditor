@@ -4,7 +4,7 @@ export interface SaveFile {
 }
 
 export interface AstroHeader {
-	formatType: number // uint32 - saved just so we have it. This is actually the string "GVAS" as the decompressed version of .savefile is of the type GVAS
+	formatType: number // uint32 - saved just so we have it. This is actually the string "GVAS" represented as a number
 	saveVersion: number // int32
 	gameVersion: number // int32
 	engineVersion: AstroEngineVersion

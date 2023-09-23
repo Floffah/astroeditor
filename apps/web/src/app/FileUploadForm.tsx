@@ -2,14 +2,15 @@
 
 import { useEditor } from '@/providers/EditorProvider'
 import { Icon } from '@iconify/react'
+import { useRouter } from 'next/navigation'
 
 export function FileUploadForm() {
-	const { importFile, parsing } = useEditor()
+	const { importFile, parsing, parseError } = useEditor()
 
 	return (
 		<div className="bg-white/10 rounded-lg p-8 space-y-5 max-w-lg">
 			<div>
-				<h1>AstroEditor</h1>
+				<h1 className="font-bold text-2xl mb-2.5">AstroEditor</h1>
 				<p>Upload a .savegame file to start</p>
 			</div>
 
@@ -25,14 +26,16 @@ export function FileUploadForm() {
 				<input
 					type="file"
 					accept=".savegame"
-					onChange={(e) => {
+					onChange={async (e) => {
 						const file = e.target.files?.[0]
 						if (file) {
-							importFile(file)
+							await importFile(file)
 						}
 					}}
 				/>
 			)}
+
+			{parseError && <p className="text-red-400">{parseError}</p>}
 
 			<div className="bg-white/20 w-full h-0.5" />
 

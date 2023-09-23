@@ -3,6 +3,7 @@ import ByteBuffer from 'bytebuffer'
 import { Inflate } from 'pako'
 import { SaveFile as AstroSaveFile } from '@/serializing/AstroSave'
 import { SaveDeserializer } from '@/serializing/SaveDeserializer'
+import { Interpolator } from '@/interpolation/Interpolator'
 
 const fixedHeaderHex = 'BE 40 37 4A EE 0B 74 A3 01 00 00 00'
 const fixedHeaderBytes = fixedHeaderHex
@@ -11,6 +12,7 @@ const fixedHeaderBytes = fixedHeaderHex
 
 export class SaveFile {
 	editor: Editor
+	interpolator: Interpolator
 	buf: ByteBuffer
 
 	saveData: AstroSaveFile
@@ -24,7 +26,9 @@ export class SaveFile {
 
 		for (let i = 0; i < fixedHeaderBytes.length; i++) {
 			if (fixedHeaderBytes[i] !== fixedHeaderBuf.readUint8(i)) {
-				throw new Error('Invalid save file')
+				throw new Error(
+					'Invalid save file header. Is this definitely a .savegame file?',
+				)
 			}
 		}
 
@@ -37,5 +41,7 @@ export class SaveFile {
 		this.buf = decompressedBuf
 
 		this.saveData = SaveDeserializer.parseSaveFile(this.buf)
+
+		this.interpolator = new Interpolator(this)
 	}
 }
