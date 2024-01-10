@@ -42,9 +42,9 @@ export function FileUploadForm() {
 			<div className="flex flex-col gap-2">
 				<p>
 					<strong>DISCLAIMER: </strong>
-					This is a fan-made tool and is not affiliated with or endorsed by the
-					Astroneer team. To the respect of the Astroneer team, all save files
-					will be set to creative mode with achievements disabled.
+					This is a fan-made hobby project and is not affiliated with or
+					endorsed by the Astroneer team. I reserve the right to withdraw
+					service from anyone who uses this tool for malicious purposes.
 				</p>
 				<p>
 					This tool is <strong>VERY WIP</strong> and should not be expected to
