@@ -1,6 +1,6 @@
 'use client'
 
-import { useEditor } from '@/providers/EditorProvider'
+import { useEditor } from '@/app/providers/EditorProvider'
 
 export function OverviewTab() {
 	const editor = useEditor()

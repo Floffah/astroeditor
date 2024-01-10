@@ -1,8 +1,12 @@
-import { EditorProvider } from '@/providers/EditorProvider'
-import { populateMetadata } from '@/lib/populateMetadata'
-import DefaultLayout from '@/layouts/DefaultLayout'
+import clsx from 'clsx'
+import { Nunito } from 'next/font/google'
 import { PropsWithChildren } from 'react'
-import { EditorTabsProvider } from '@/providers/EditorTabsProvider'
+
+import '@/app/globals.css'
+import { populateMetadata } from '@/app/lib/populateMetadata'
+import { EditorProvider } from '@/app/providers/EditorProvider'
+
+const nunito = Nunito({ subsets: ['latin'], variable: '--font-sans' })
 
 export const metadata = populateMetadata({
 	title: 'Astroneer Save Editor',
@@ -11,8 +15,10 @@ export const metadata = populateMetadata({
 
 export default function RootLayout({ children }: PropsWithChildren) {
 	return (
-		<DefaultLayout>
-			<EditorProvider>{children}</EditorProvider>
-		</DefaultLayout>
+		<html lang="en" className={clsx(nunito.className, nunito.variable)}>
+			<body>
+				<EditorProvider>{children}</EditorProvider>
+			</body>
+		</html>
 	)
 }

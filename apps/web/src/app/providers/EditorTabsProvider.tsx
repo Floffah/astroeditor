@@ -1,16 +1,16 @@
 'use client'
 
+import { nanoid } from 'nanoid'
 import {
-	createContext,
 	PropsWithChildren,
 	ReactNode,
+	createContext,
 	useContext,
 	useEffect,
-	useRef,
 	useState,
 	useTransition,
 } from 'react'
-import { nanoid } from 'nanoid'
+
 import { OverviewTab } from '@/app/editor/EditorTabs/OverviewTab'
 
 interface EditorTabsContextValue {

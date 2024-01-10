@@ -1,3 +1,5 @@
+import ByteBuffer from 'bytebuffer'
+
 import {
 	AstroActorRecord,
 	AstroChildActorRecord,
@@ -14,8 +16,7 @@ import {
 	SaveFile,
 	Transform,
 } from '@/serializing/AstroSave'
-import ByteBuffer from 'bytebuffer'
-import { readUint128, readUTF8String } from '@/util/protocolFormats'
+import { readUTF8String, readUint128 } from '@/util/protocolFormats'
 
 /**
  * see https://github.com/ricky-davis/astro_save_parser/blob/main/src/save.rs for reference

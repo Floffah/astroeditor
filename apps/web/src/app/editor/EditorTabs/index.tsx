@@ -1,10 +1,10 @@
 'use client'
 
-import { useEditorTabs } from '@/providers/EditorTabsProvider'
 import * as Tabs from '@radix-ui/react-tabs'
-import clsx from 'clsx'
-import { act } from 'react-dom/test-utils'
 import { Icon } from '@iconify/react'
+import clsx from 'clsx'
+
+import { useEditorTabs } from '@/app/providers/EditorTabsProvider'
 
 export function EditorTabs() {
 	const { tabs, activeTab, setActiveTab, closeTab } = useEditorTabs()

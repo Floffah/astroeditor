@@ -1,9 +1,10 @@
-import { Editor } from '@/Editor'
 import ByteBuffer from 'bytebuffer'
 import { Inflate } from 'pako'
+
+import { Editor } from '@/Editor'
+import { Interpolator } from '@/interpolation/Interpolator'
 import { SaveFile as AstroSaveFile } from '@/serializing/AstroSave'
 import { SaveDeserializer } from '@/serializing/SaveDeserializer'
-import { Interpolator } from '@/interpolation/Interpolator'
 
 const fixedHeaderHex = 'BE 40 37 4A EE 0B 74 A3 01 00 00 00'
 const fixedHeaderBytes = fixedHeaderHex
@@ -42,6 +43,6 @@ export class SaveFile {
 
 		this.saveData = SaveDeserializer.parseSaveFile(this.buf)
 
-		this.interpolator = new Interpolator(this)
+		// this.interpolator = new Interpolator(this)
 	}
 }

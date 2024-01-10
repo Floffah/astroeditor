@@ -1,5 +1,5 @@
-import { NavBar } from '@/app/editor/NavBar'
 import { EditorTabs } from '@/app/editor/EditorTabs'
+import { NavBar } from '@/app/editor/NavBar'
 
 export default function Editor() {
 	return (

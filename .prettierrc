@@ -4,5 +4,20 @@
   "singleQuote": true,
   "useTabs": true,
   "endOfLine": "lf",
-  "tailwindConfig": "apps/web/tailwind.config.js"
+  "tailwindConfig": "apps/web/tailwind.config.js",
+
+  "importOrder": [
+    "reflect-metadata",
+    "<THIRD_PARTY_MODULES>",
+    "^@astroeditor/(.*)$",
+    "@/(.*)$"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderGroupNamespaceSpecifiers": true,
+
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "@trivago/prettier-plugin-sort-imports"
+  ]
 }

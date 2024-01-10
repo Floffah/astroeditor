@@ -1,8 +1,8 @@
 'use client'
 
-import { useEditor } from '@/providers/EditorProvider'
 import { Icon } from '@iconify/react'
-import { useRouter } from 'next/navigation'
+
+import { useEditor } from '@/app/providers/EditorProvider'
 
 export function FileUploadForm() {
 	const { importFile, parsing, parseError } = useEditor()

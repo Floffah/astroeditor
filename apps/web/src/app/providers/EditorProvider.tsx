@@ -1,16 +1,16 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import {
-	createContext,
 	MutableRefObject,
 	PropsWithChildren,
-	RefObject,
+	createContext,
 	useContext,
 	useEffect,
 	useRef,
 	useState,
 } from 'react'
-import { useRouter } from 'next/navigation'
+
 import { Editor } from '@astroeditor/astroeditor'
 
 interface EditorContextValue {
@@ -37,7 +37,7 @@ export function EditorProvider({ children }: PropsWithChildren<any>) {
 		if (!editorRef.current && window.location.pathname === '/editor') {
 			router.replace('/')
 		}
-	}, [editorRef.current])
+	}, [router])
 
 	const importFile = async (file: File) => {
 		setParsing(true)
