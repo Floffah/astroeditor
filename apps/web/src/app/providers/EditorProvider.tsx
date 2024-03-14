@@ -51,6 +51,8 @@ export function EditorProvider({ children }: PropsWithChildren<any>) {
 		try {
 			editorRef.current = new Editor()
 			editorRef.current.load(BigInt(bytes.length), bytes)
+
+			console.log(editorRef.current.toString())
 		} catch (e: any) {
 			console.error(e)
 			setParseError(e.message ?? `${e}`)
