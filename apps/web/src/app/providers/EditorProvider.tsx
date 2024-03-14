@@ -11,7 +11,11 @@ import {
 	useState,
 } from 'react'
 
-import { Editor } from '@astroeditor/astroeditor'
+import initModule, { Editor } from '@astroeditor/astroeditor'
+
+if (typeof window !== 'undefined') {
+	initModule()
+}
 
 interface EditorContextValue {
 	importFile: (file: File) => Promise<void>
@@ -42,10 +46,11 @@ export function EditorProvider({ children }: PropsWithChildren<any>) {
 	const importFile = async (file: File) => {
 		setParsing(true)
 
-		const buffer = await file.arrayBuffer()
+		const bytes = new Uint8Array(await file.arrayBuffer())
 
 		try {
-			editorRef.current = new Editor(buffer)
+			editorRef.current = new Editor()
+			editorRef.current.load(BigInt(bytes.length), bytes)
 		} catch (e: any) {
 			console.error(e)
 			setParseError(e.message ?? `${e}`)
