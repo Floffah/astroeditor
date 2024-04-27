@@ -5,10 +5,12 @@ import {
 	MutableRefObject,
 	PropsWithChildren,
 	createContext,
+	startTransition,
 	useContext,
 	useEffect,
 	useRef,
 	useState,
+	useTransition,
 } from 'react'
 
 import initModule, { Editor } from '@astroeditor/astroeditor'
@@ -32,7 +34,7 @@ export function EditorProvider({ children }: PropsWithChildren<any>) {
 	const router = useRouter()
 	const editorRef = useRef<Editor>()
 
-	const [parsing, setParsing] = useState(false)
+	const [parsing, startParsingTransition] = useTransition()
 	const [parseError, setParseError] = useState<string | null>(null)
 
 	console.log(editorRef.current)
@@ -43,28 +45,30 @@ export function EditorProvider({ children }: PropsWithChildren<any>) {
 		}
 	}, [router])
 
-	const importFile = async (file: File) => {
-		setParsing(true)
+	const importFile = (file: File) =>
+		new Promise<void>((resolve) =>
+			startTransition(async () => {
+				const bytes = new Uint8Array(await file.arrayBuffer())
 
-		const bytes = new Uint8Array(await file.arrayBuffer())
+				try {
+					editorRef.current = new Editor()
+					editorRef.current.load(BigInt(bytes.length), bytes)
 
-		try {
-			editorRef.current = new Editor()
-			editorRef.current.load(BigInt(bytes.length), bytes)
+					console.log(editorRef.current.toString())
+					console.log(editorRef.current.get_engine_version()?.version)
+				} catch (e: any) {
+					console.error(e)
+					setParseError(e.message ?? `${e}`)
+					resolve()
+					return
+				}
 
-			console.log(editorRef.current.toString())
-		} catch (e: any) {
-			console.error(e)
-			setParseError(e.message ?? `${e}`)
-			setParsing(false)
-			return
-		}
+				router.push('/editor')
 
-		router.push('/editor')
-
-		setParsing(false)
-		setParseError(null)
-	}
+				setParseError(null)
+				resolve()
+			}),
+		)
 
 	return (
 		<EditorContext.Provider

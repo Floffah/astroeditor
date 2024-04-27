@@ -2,7 +2,7 @@
 
 import { Icon } from '@iconify/react'
 
-import { useEditor } from '@/app/providers/EditorProvider'
+import { useEditor } from '@/providers/EditorProvider'
 
 export function FileUploadForm() {
 	const { importFile, parsing, parseError } = useEditor()
