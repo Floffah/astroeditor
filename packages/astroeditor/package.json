@@ -6,9 +6,10 @@
   "scripts": {
     "build:base": "wasm-pack build --no-pack -t web --out-dir dist",
     "build": "yarn build:base --release",
-    "dev": "yarn build:base --dev"
+    "dev": "nodemon --exec 'yarn build:base' --watch src -e rs"
   },
   "devDependencies": {
+    "nodemon": "^3.1.0",
     "wasm-pack": "^0.12.1"
   }
 }

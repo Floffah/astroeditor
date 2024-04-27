@@ -3,8 +3,8 @@ import { Nunito } from 'next/font/google'
 import { PropsWithChildren } from 'react'
 
 import '@/app/globals.css'
-import { populateMetadata } from '@/app/lib/populateMetadata'
-import { EditorProvider } from '@/app/providers/EditorProvider'
+import { populateMetadata } from '@/lib/populateMetadata'
+import { EditorProvider } from '@/providers/EditorProvider'
 
 const nunito = Nunito({ subsets: ['latin'], variable: '--font-sans' })
 

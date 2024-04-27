@@ -28,17 +28,17 @@ use byteorder::{ByteOrder, LittleEndian};
 use flate2::read::ZlibDecoder;
 
 #[derive(Debug)]
-pub struct SaveFileData {
-    file: Option<File>,
-    filesize: u64,
-    header: Vec<u8>,
-    compressed_data: Vec<u8>,
-    decompressed_data: Vec<u8>,
-    cursor: u64,
+pub(crate) struct SaveFileData {
+    pub(crate) file: Option<File>,
+    pub(crate) filesize: u64,
+    pub(crate) header: Vec<u8>,
+    pub(crate) compressed_data: Vec<u8>,
+    pub(crate) decompressed_data: Vec<u8>,
+    pub(crate) cursor: u64,
 }
 
 impl SaveFileData {
-    pub fn new_bytes(file_size: u64, file_data: &[u8]) -> SaveFileData {
+    pub(crate) fn new_bytes(file_size: u64, file_data: &[u8]) -> SaveFileData {
         let file = None;
 
         SaveFileData {
@@ -51,7 +51,7 @@ impl SaveFileData {
         }
     }
 
-    pub fn get_next_x(&mut self, x: u64) -> Vec<u8> {
+    pub(crate) fn get_next_x(&mut self, x: u64) -> Vec<u8> {
         let size = x;
         let d: Vec<_> = self.decompressed_data
             [(self.cursor as usize)..((self.cursor + size) as usize)]
@@ -60,7 +60,7 @@ impl SaveFileData {
         return d;
     }
 
-    pub fn get_next_u8(&mut self) -> u8 {
+    pub(crate) fn get_next_u8(&mut self) -> u8 {
         let size = 1;
         let d: Vec<_> = self.decompressed_data
             [(self.cursor as usize)..((self.cursor + size) as usize)]
@@ -70,7 +70,7 @@ impl SaveFileData {
         // println!("{:?}",rtn);
         return rtn;
     }
-    pub fn get_next_u16(&mut self) -> u16 {
+    pub(crate) fn get_next_u16(&mut self) -> u16 {
         let size = 2;
         let d: Vec<_> = self.decompressed_data
             [(self.cursor as usize)..((self.cursor + size) as usize)]
@@ -80,7 +80,7 @@ impl SaveFileData {
         // println!("{:?}",rtn);
         return rtn;
     }
-    pub fn get_next_i16(&mut self) -> i16 {
+    pub(crate) fn get_next_i16(&mut self) -> i16 {
         let size = 2;
         let d: Vec<_> = self.decompressed_data
             [(self.cursor as usize)..((self.cursor + size) as usize)]
@@ -90,7 +90,7 @@ impl SaveFileData {
         // println!("{:?}",rtn);
         return rtn;
     }
-    pub fn get_next_u32(&mut self) -> u32 {
+    pub(crate) fn get_next_u32(&mut self) -> u32 {
         let size = 4;
         let d: Vec<_> = self.decompressed_data
             [(self.cursor as usize)..((self.cursor + size) as usize)]
@@ -100,7 +100,7 @@ impl SaveFileData {
         // println!("{:?}",rtn);
         return rtn;
     }
-    pub fn get_next_i32(&mut self) -> i32 {
+    pub(crate) fn get_next_i32(&mut self) -> i32 {
         let size = 4;
         let d: Vec<_> = self.decompressed_data
             [(self.cursor as usize)..((self.cursor + size) as usize)]
@@ -110,7 +110,7 @@ impl SaveFileData {
         // println!("{:?}",rtn);
         return rtn;
     }
-    pub fn get_next_u64(&mut self) -> u64 {
+    pub(crate) fn get_next_u64(&mut self) -> u64 {
         let size = 8;
         let d: Vec<_> = self.decompressed_data
             [(self.cursor as usize)..((self.cursor + size) as usize)]
@@ -120,7 +120,7 @@ impl SaveFileData {
         // println!("{:?}",rtn);
         return rtn;
     }
-    pub fn get_next_i64(&mut self) -> i64 {
+    pub(crate) fn get_next_i64(&mut self) -> i64 {
         let size = 8;
         let d: Vec<_> = self.decompressed_data
             [(self.cursor as usize)..((self.cursor + size) as usize)]
@@ -130,7 +130,7 @@ impl SaveFileData {
         // println!("{:?}",rtn);
         return rtn;
     }
-    pub fn get_next_u128(&mut self) -> u128 {
+    pub(crate) fn get_next_u128(&mut self) -> u128 {
         let size = 16;
         let d: Vec<_> = self.decompressed_data
             [(self.cursor as usize)..((self.cursor + size) as usize)]
@@ -140,7 +140,7 @@ impl SaveFileData {
         // println!("{:?}",rtn);
         return rtn;
     }
-    pub fn get_next_f32(&mut self) -> f32 {
+    pub(crate) fn get_next_f32(&mut self) -> f32 {
         let size = 4;
         let d: Vec<_> = self.decompressed_data
             [(self.cursor as usize)..((self.cursor + size) as usize)]
@@ -150,7 +150,7 @@ impl SaveFileData {
         // println!("{:?}",rtn);
         return rtn;
     }
-    pub fn get_next_string(&mut self) -> String {
+    pub(crate) fn get_next_string(&mut self) -> String {
         let s: Vec<_> =
             self.decompressed_data[(self.cursor as usize)..((self.cursor + 4) as usize)].to_vec();
         let str_size = LittleEndian::read_i32(&s) as u64;
@@ -170,20 +170,20 @@ impl SaveFileData {
 }
 
 #[derive(Debug)]
-pub struct RawSave {
-    structured_data: Option<DecompressedData>,
-    raw_data: Option<SaveFileData>,
+pub(crate) struct RawSave {
+    pub(crate) structured_data: Option<DecompressedData>,
+    pub(crate) raw_data: Option<SaveFileData>,
 }
 
 impl RawSave {
-    pub fn new_bytes(file_size: u64, file_data: &[u8]) -> RawSave {
+    pub(crate) fn new_bytes(file_size: u64, file_data: &[u8]) -> RawSave {
         let raw_data = Some(SaveFileData::new_bytes(file_size, &file_data.to_vec()));
         RawSave {
             raw_data,
             structured_data: None,
         }
     }
-    pub fn load(&mut self) {
+    pub(crate) fn load(&mut self) {
         let mut data: &mut SaveFileData = self.raw_data.as_mut().unwrap();
         let mut compressed = Vec::new();
 
@@ -220,13 +220,13 @@ impl RawSave {
 }
 
 #[derive(Debug)]
-struct DecompressedData {
-    header: Header,
-    astro_save: AstroSave,
+pub(crate) struct DecompressedData {
+    pub(crate) header: Header,
+    pub(crate) astro_save: AstroSave,
 }
 
 impl DecompressedData {
-    pub fn deserialize(save: &mut SaveFileData) -> DecompressedData {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> DecompressedData {
         let h = Header::deserialize(save);
         println!("here1");
         let s = AstroSave::deserialize(save);
@@ -238,19 +238,19 @@ impl DecompressedData {
 }
 
 #[derive(Debug)]
-struct Header {
-    format_tag: u32,
-    save_game_version: i32,
-    package_version: i32,
-    engine_version: EngineVersion,
-    custom_format_data: CustomFormatData,
-    save_class: String,
-    end_of_header1: String,
-    end_of_header2: i32,
+pub(crate) struct Header {
+    pub(crate) format_tag: u32,
+    pub(crate) save_game_version: i32,
+    pub(crate) package_version: i32,
+    pub(crate) engine_version: EngineVersion,
+    pub(crate) custom_format_data: CustomFormatData,
+    pub(crate) save_class: String,
+    pub(crate) end_of_header1: String,
+    pub(crate) end_of_header2: i32,
 }
 
 impl Header {
-    pub fn deserialize(save: &mut SaveFileData) -> Header {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> Header {
         Header {
             format_tag: save.get_next_u32(),
             save_game_version: save.get_next_i32(),
@@ -265,16 +265,16 @@ impl Header {
 }
 
 #[derive(Debug)]
-struct EngineVersion {
-    major: u16,
-    minor: u16,
-    patch: u16,
-    build: u32,
-    build_id: String,
+pub(crate) struct EngineVersion {
+    pub(crate) major: u16,
+    pub(crate) minor: u16,
+    pub(crate) patch: u16,
+    pub(crate) build: u32,
+    pub(crate) build_id: String,
 }
 
 impl EngineVersion {
-    pub fn deserialize(save: &mut SaveFileData) -> EngineVersion {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> EngineVersion {
         EngineVersion {
             major: save.get_next_u16(),
             minor: save.get_next_u16(),
@@ -286,14 +286,14 @@ impl EngineVersion {
 }
 
 #[derive(Debug)]
-struct CustomFormatData {
-    version: i32,
-    custom_format_count: u32,
-    custom_format_datum: Vec<CustomFormatDatum>,
+pub(crate) struct CustomFormatData {
+    pub(crate) version: i32,
+    pub(crate) custom_format_count: u32,
+    pub(crate) custom_format_datum: Vec<CustomFormatDatum>,
 }
 
 impl CustomFormatData {
-    pub fn deserialize(save: &mut SaveFileData) -> CustomFormatData {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> CustomFormatData {
         let vers = save.get_next_i32();
         let count = save.get_next_u32();
         let mut cfd = Vec::new();
@@ -309,14 +309,14 @@ impl CustomFormatData {
 }
 
 #[derive(Debug)]
-struct CustomFormatDatum {
-    id: u128,
+pub(crate) struct CustomFormatDatum {
+    pub(crate) id: u128,
     // Guid
-    value: i32,
+    pub(crate) value: i32,
 }
 
 impl CustomFormatDatum {
-    pub fn deserialize(save: &mut SaveFileData) -> CustomFormatDatum {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> CustomFormatDatum {
         CustomFormatDatum {
             id: save.get_next_u128(),
             value: save.get_next_i32(),
@@ -327,14 +327,14 @@ impl CustomFormatDatum {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 #[derive(Debug)]
-struct AstroSave {
-    level_chunk: AstroLevelSaveChunk,
-    remote_player_chunks_count: i32,
-    remote_player_chunks: Vec<AstroRemotePlayerChunk>,
+pub(crate) struct AstroSave {
+    pub(crate) level_chunk: AstroLevelSaveChunk,
+    pub(crate) remote_player_chunks_count: i32,
+    pub(crate) remote_player_chunks: Vec<AstroRemotePlayerChunk>,
 }
 
 impl AstroSave {
-    pub fn deserialize(save: &mut SaveFileData) -> AstroSave {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> AstroSave {
         let alsc = AstroLevelSaveChunk::deserialize(save);
         let rpc_count = save.get_next_i32();
         let mut rpc = Vec::new();
@@ -350,16 +350,16 @@ impl AstroSave {
 }
 
 #[derive(Debug)]
-struct AstroLevelSaveChunk {
-    astro_save_version: u32,
-    level_name: String,
-    data: AstroSaveChunk,
-    player_controller_records_count: i32,
-    player_controller_records: Vec<PlayerControllerRecord>,
+pub(crate) struct AstroLevelSaveChunk {
+    pub(crate) astro_save_version: u32,
+    pub(crate) level_name: String,
+    pub(crate) data: AstroSaveChunk,
+    pub(crate) player_controller_records_count: i32,
+    pub(crate) player_controller_records: Vec<PlayerControllerRecord>,
 }
 
 impl AstroLevelSaveChunk {
-    pub fn deserialize(save: &mut SaveFileData) -> AstroLevelSaveChunk {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> AstroLevelSaveChunk {
         let asv = save.get_next_u32();
         let ln = save.get_next_string();
         let data = AstroSaveChunk::deserialize(save);
@@ -379,14 +379,14 @@ impl AstroLevelSaveChunk {
 }
 
 #[derive(Debug)]
-struct PlayerControllerRecord {
-    actor_index: u32,
-    last_controller_pawn: u32,
-    network_uuid: u64,
+pub(crate) struct PlayerControllerRecord {
+    pub(crate) actor_index: u32,
+    pub(crate) last_controller_pawn: u32,
+    pub(crate) network_uuid: u64,
 }
 
 impl PlayerControllerRecord {
-    pub fn deserialize(save: &mut SaveFileData) -> PlayerControllerRecord {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> PlayerControllerRecord {
         PlayerControllerRecord {
             actor_index: save.get_next_u32(),
             last_controller_pawn: save.get_next_u32(),
@@ -396,13 +396,13 @@ impl PlayerControllerRecord {
 }
 
 #[derive(Debug)]
-struct AstroRemotePlayerChunk {
-    data: AstroSaveChunk,
-    network_uuid: u64,
+pub(crate) struct AstroRemotePlayerChunk {
+    pub(crate) data: AstroSaveChunk,
+    pub(crate) network_uuid: u64,
 }
 
 impl AstroRemotePlayerChunk {
-    pub fn deserialize(save: &mut SaveFileData) -> AstroRemotePlayerChunk {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> AstroRemotePlayerChunk {
         AstroRemotePlayerChunk {
             data: AstroSaveChunk::deserialize(save),
             network_uuid: save.get_next_u64(),
@@ -411,20 +411,20 @@ impl AstroRemotePlayerChunk {
 }
 
 #[derive(Debug)]
-struct AstroSaveChunk {
-    astro_save_version: u32,
-    names: StringTable,
-    object_records_count: u32,
-    object_records: Vec<ObjectSaveRecord>,
-    actor_records_count: u32,
-    actor_records: Vec<ActorRecord>,
-    root_level_actor_indices_count: u32,
-    root_level_actor_indices: Vec<i32>,
-    first_import_index: u32,
+pub(crate) struct AstroSaveChunk {
+    pub(crate) astro_save_version: u32,
+    pub(crate) names: StringTable,
+    pub(crate) object_records_count: u32,
+    pub(crate) object_records: Vec<ObjectSaveRecord>,
+    pub(crate) actor_records_count: u32,
+    pub(crate) actor_records: Vec<ActorRecord>,
+    pub(crate) root_level_actor_indices_count: u32,
+    pub(crate) root_level_actor_indices: Vec<i32>,
+    pub(crate) first_import_index: u32,
 }
 
 impl AstroSaveChunk {
-    pub fn deserialize(save: &mut SaveFileData) -> AstroSaveChunk {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> AstroSaveChunk {
         let asv = save.get_next_u32();
         let names = StringTable::deserialize(save);
         let or_count = save.get_next_u32();
@@ -459,13 +459,13 @@ impl AstroSaveChunk {
 }
 
 #[derive(Debug)]
-struct StringTable {
-    count: i64,
-    strings: Vec<String>,
+pub(crate) struct StringTable {
+    pub(crate) count: i64,
+    pub(crate) strings: Vec<String>,
 }
 
 impl StringTable {
-    pub fn deserialize(save: &mut SaveFileData) -> StringTable {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> StringTable {
         let count = save.get_next_i64();
         let mut strings = Vec::new();
         for _x in 0..(count - 1) {
@@ -480,21 +480,21 @@ impl StringTable {
 
 #[derive(Debug)]
 struct ObjectSaveRecord {
-    object_type: String,
-    name_index: i32,
-    flags: u32,
-    save_flags: u8,
-    outer_object_index: i32,
+    pub(crate) object_type: String,
+    pub(crate) name_index: i32,
+    pub(crate) flags: u32,
+    pub(crate) save_flags: u8,
+    pub(crate) outer_object_index: i32,
     // parent
-    custom_data_offset: u32,
-    size: u32,
-    data: Vec<u8>,
+    pub(crate) custom_data_offset: u32,
+    pub(crate) size: u32,
+    pub(crate) data: Vec<u8>,
     // length is size
-    custom_data: Vec<u8>, // length is size - custom_data_offset
+    pub(crate) custom_data: Vec<u8>, // length is size - custom_data_offset
 }
 
 impl ObjectSaveRecord {
-    pub fn deserialize(save: &mut SaveFileData) -> ObjectSaveRecord {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> ObjectSaveRecord {
         let ot = save.get_next_string();
         let ni = save.get_next_i32();
         let flags = save.get_next_u32();
@@ -535,17 +535,17 @@ impl ObjectSaveRecord {
 }
 
 #[derive(Debug)]
-struct ActorRecord {
-    object_index: i32,
-    child_actor_count: i32,
-    child_actor_records: Vec<ChildActorRecord>,
-    owned_component_count: i32,
-    owned_components: Vec<ComponentRecord>,
-    root_transform: Transform,
+pub(crate) struct ActorRecord {
+    pub(crate) object_index: i32,
+    pub(crate) child_actor_count: i32,
+    pub(crate) child_actor_records: Vec<ChildActorRecord>,
+    pub(crate) owned_component_count: i32,
+    pub(crate) owned_components: Vec<ComponentRecord>,
+    pub(crate) root_transform: Transform,
 }
 
 impl ActorRecord {
-    pub fn deserialize(save: &mut SaveFileData) -> ActorRecord {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> ActorRecord {
         let oi = save.get_next_i32();
         let ca_count = save.get_next_i32();
         let mut car = Vec::new();
@@ -571,13 +571,13 @@ impl ActorRecord {
 }
 
 #[derive(Debug)]
-struct ChildActorRecord {
-    name_index: i32,
-    actor_index: i32,
+pub(crate) struct ChildActorRecord {
+    pub(crate) name_index: i32,
+    pub(crate) actor_index: i32,
 }
 
 impl ChildActorRecord {
-    pub fn deserialize(save: &mut SaveFileData) -> ChildActorRecord {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> ChildActorRecord {
         ChildActorRecord {
             name_index: save.get_next_i32(),
             actor_index: save.get_next_i32(),
@@ -586,13 +586,13 @@ impl ChildActorRecord {
 }
 
 #[derive(Debug)]
-struct ComponentRecord {
-    name_index: i32,
-    object_index: i32,
+pub(crate) struct ComponentRecord {
+    pub(crate) name_index: i32,
+    pub(crate) object_index: i32,
 }
 
 impl ComponentRecord {
-    pub fn deserialize(save: &mut SaveFileData) -> ComponentRecord {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> ComponentRecord {
         ComponentRecord {
             name_index: save.get_next_i32(),
             object_index: save.get_next_i32(),
@@ -601,14 +601,14 @@ impl ComponentRecord {
 }
 
 #[derive(Debug)]
-struct Transform {
-    rotation: Quaternion,
-    translation: Vec<f32>,
-    scale: Vec<f32>,
+pub(crate) struct Transform {
+    pub(crate) rotation: Quaternion,
+    pub(crate) translation: Vec<f32>,
+    pub(crate) scale: Vec<f32>,
 }
 
 impl Transform {
-    pub fn deserialize(save: &mut SaveFileData) -> Transform {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> Transform {
         let quat = Quaternion::deserialize(save);
         let mut trns = Vec::new();
         for _x in 0..3 {
@@ -627,15 +627,15 @@ impl Transform {
 }
 
 #[derive(Debug)]
-struct Quaternion {
-    x: f32,
-    y: f32,
-    z: f32,
-    w: f32,
+pub(crate) struct Quaternion {
+    pub(crate) x: f32,
+    pub(crate) y: f32,
+    pub(crate) z: f32,
+    pub(crate) w: f32,
 }
 
 impl Quaternion {
-    pub fn deserialize(save: &mut SaveFileData) -> Quaternion {
+    pub(crate) fn deserialize(save: &mut SaveFileData) -> Quaternion {
         Quaternion {
             x: save.get_next_f32(),
             y: save.get_next_f32(),

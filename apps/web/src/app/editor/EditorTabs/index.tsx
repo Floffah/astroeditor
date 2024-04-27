@@ -4,7 +4,7 @@ import * as Tabs from '@radix-ui/react-tabs'
 import { Icon } from '@iconify/react'
 import clsx from 'clsx'
 
-import { useEditorTabs } from '@/app/providers/EditorTabsProvider'
+import { useEditorTabs } from '@/state/editorTabs'
 
 export function EditorTabs() {
 	const { tabs, activeTab, setActiveTab, closeTab } = useEditorTabs()
