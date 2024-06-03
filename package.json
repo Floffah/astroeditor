@@ -8,14 +8,15 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "deps": "ncu -ws --root -x eslint"
+    "deps": "ncu -ws --root"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "npm-check-updates": "^16.14.20",
-    "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.14",
-    "turbo": "^1.13.3"
+    "prettier": "^3.3.0",
+    "prettier-plugin-tailwindcss": "^0.6.1",
+    "turbo": "^1.13.3",
+    "vercel": "^34.2.4"
   },
-  "packageManager": "yarn@4.1.1+sha256.f3cc0eda8e5560e529c7147565b30faa43b4e472d90e8634d7134a37c7f59781"
+  "packageManager": "bun@1.1.12"
 }
