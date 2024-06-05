@@ -5,11 +5,11 @@
   "types": "dist/astroeditor.d.ts",
   "scripts": {
     "build:base": "wasm-pack build --no-pack -t web --out-dir dist",
-    "build": "yarn build:base --release",
-    "dev": "nodemon --exec 'yarn build:base' --watch src -e rs"
+    "build": "bun run build:base --release",
+    "dev": "nodemon --exec 'bun run build:base' --watch src -e rs"
   },
   "devDependencies": {
-    "nodemon": "^3.1.2",
+    "nodemon": "^3.1.3",
     "wasm-pack": "^0.12.1"
   }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import {
 	MutableRefObject,
 	PropsWithChildren,
@@ -31,6 +31,7 @@ export const EditorContext = createContext<EditorContextValue>(null as any)
 export const useEditor = () => useContext(EditorContext)
 
 export function EditorProvider({ children }: PropsWithChildren<any>) {
+	const pathname = usePathname();
 	const router = useRouter()
 	const editorRef = useRef<Editor>()
 
@@ -40,14 +41,14 @@ export function EditorProvider({ children }: PropsWithChildren<any>) {
 	console.log(editorRef.current)
 
 	useEffect(() => {
-		if (!editorRef.current && window.location.pathname === '/editor') {
-			router.replace('/')
+		if (!editorRef.current && pathname.startsWith('/editor')) {
+			router.push('/')
 		}
 	}, [router])
 
 	const importFile = (file: File) =>
 		new Promise<void>((resolve) =>
-			startTransition(async () => {
+			startParsingTransition(async () => {
 				const bytes = new Uint8Array(await file.arrayBuffer())
 
 				try {

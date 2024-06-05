@@ -1,11 +1,11 @@
-import { EditorTabs } from '@/app/editor/EditorTabs'
-import { NavBar } from '@/app/editor/NavBar'
-
-export default function Editor() {
+export default function EditorOverview() {
 	return (
-		<main className="flex h-screen w-screen p-5 space-x-5">
-			<NavBar />
-			<EditorTabs />
-		</main>
+		<div className="flex flex-col h-full p-5">
+			<div className="flex items-center space-x-5 text-lg">
+				<div className="bg-black/20 px-4 py-3 rounded-2xl">V0.0.0</div>
+
+				<p>Astroneer Save Editor</p>
+			</div>
+		</div>
 	)
 }
